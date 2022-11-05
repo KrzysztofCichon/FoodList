@@ -1,4 +1,4 @@
-import random
+from random import randint
 
 breakfastList = [
     'Owsianka z orzechami włoskimi i daktylami',
@@ -70,30 +70,32 @@ supperList = [
     ]
 
 def pickRandomMeal(whichMealList):
-    return(str(whichMealList[random.randint(0,(len(whichMealList)-1))]))
+    return(str(whichMealList[randint(0,(len(whichMealList)-1))]))
 
 def generateMenuForDay(dayNum):
-    menuForDay = '\nŚniadanie : '+(pickRandomMeal(breakfastList))+'\nDrugie śniadanie : '+(pickRandomMeal(lunchList))+'\nObiad : '+(pickRandomMeal(dinnerList))+'\nKolacja : '+(pickRandomMeal(supperList))+'\n\n'
-    return ('Dzień '+str(dayNum)+' :'+menuForDay)
+    menuForDay = f'\nŚniadanie : {(pickRandomMeal(breakfastList))}\
+                    \nDrugie śniadanie : {(pickRandomMeal(lunchList))}\
+                    \nObiad : {(pickRandomMeal(dinnerList))}\
+                    \nKolacja : {(pickRandomMeal(supperList))}\n\n'
+    return (f'Dzień {str(dayNum)} : {menuForDay}')
 
 def generateFullMenu():
     fullMenu = 'Oto jadłospis na '+str(amountOfDays)+' dni:\n\n'
     for i in range(amountOfDays):
-        fullMenu = fullMenu + (generateMenuForDay(i+1))
-        i = i + 1
+        fullMenu += (generateMenuForDay(i+1))
+        i += 1
     return fullMenu
 
-def yesOrNo(questionToConfirm):
+def yesOrNo(questionToConfirm,confirmLetter,declineLetter):
     while True:
-        yesNoInput = input(questionToConfirm)
+        yesNoInput = input(f'{questionToConfirm} ({confirmLetter}/{declineLetter}) : ')
         try:
             str(yesNoInput)
         except:
             continue
-        yesNoInput = yesNoInput.upper()
-        if yesNoInput == 'T':
+        if yesNoInput == confirmLetter.upper() or yesNoInput == confirmLetter.lower():
             return True
-        if yesNoInput == 'N':
+        if yesNoInput == declineLetter.upper() or yesNoInput == declineLetter.lower():
             return False
 
 while True:
@@ -116,5 +118,5 @@ while True:
 while True:
     menuForUser = generateFullMenu()
     print(menuForUser)
-    if yesOrNo('Czy podoba Ci się to menu? (T/N) : '):
+    if yesOrNo('Czy podoba Ci się to menu?',"T","N"):
         break
